@@ -41,7 +41,8 @@
 		</footer><!-- #colophon -->
 	</div><!-- .site-content-contain -->
 </div><!-- #page -->
-<script src="<?php echo get_bloginfo('template_directory') ?>/dist/index.js"></script>
+<!-- Si je suis en dev je charge le main.js sinon le deuxieme du json -->
+<script src="<?php echo get_bloginfo('template_directory') ?>/assets/js/main.js"></script>
 <?php wp_footer(); ?>
 
 </body>

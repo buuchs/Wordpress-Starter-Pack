@@ -20,6 +20,9 @@
     <link rel="profile" href="http://gmpg.org/xfn/11">
     <?php if (ENV != "development"): ?>
         <link rel="stylesheet" href="<?php echo get_bloginfo('template_directory') ?>/dist/index.css"/>
+    <?php else: ?>
+        <!-- le deuxieme fichier du manifest.json -->
+        <link rel="stylesheet" href="<?php echo get_bloginfo('template_directory') ?>/dist/index.css"/>
     <?php endif; ?>
     <?php wp_head(); ?>
 </head>
