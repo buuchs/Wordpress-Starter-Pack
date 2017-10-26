@@ -14,6 +14,11 @@ wp-content/uploads/
 wp-content/wp-cache-config.php
 wp-content/plugins/hello.php
 wp-content/plugins/akismet/
+wp-content/themes/start-themes/assets/images
+wp-content/themes/start-themes/assets/js
+wp-content/themes/start-themes/assets/scss
+wp-content/themes/start-themes/dist/
+
 
 /.htaccess
 /license.txt
