@@ -34,15 +34,32 @@ let config = {
         filename: dev ? '[name].js' : '[name].[chunkhash:15].js',
         publicPath: '/dist/',
     },
-    resolve : {
-        alias : {
+
+    resolve: {
+        alias: {
             '@css': path.resolve('./assets/scss/'),
-            '@js' : path.resolve('./assets/js/')
+            '@js': path.resolve('./assets/js/')
         }
     },
+
     devtool: dev ? "cheap-module-eval-source-map" : false,
+    devServer: {
+        port:3000,
+        historyApiFallback: {
+            index: 'index.php',
+        },
+        contentBase: path.resolve('../../../'),
+        hot:true,
+    },
+
     module: {
         rules: [
+            {
+                enforce: 'pre',
+                test: /\.js$/,
+                exclude: /(node_modules|bower_components)/,
+                use: ['eslint-loader'],
+            },
             {
                 test: /\.js$/,
                 exclude: /(node_modules|bower_components)/,
@@ -94,7 +111,7 @@ let config = {
             disable: dev
         })
     ],
-}
+};
 
 if (!dev) {
     config.plugins.push(new UglifyJSPlugin());

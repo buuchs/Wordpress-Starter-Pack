@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Wordpress Starter pack",
   "scripts": {
-    "dev": "NODE_ENV=dev webpack",
+    "dev": "NODE_ENV=dev webpack-dev-server --open",
     "prod": "webpack"
   },
   "author": "Alex Buchs",
@@ -16,6 +16,13 @@
     "babel-preset-env": "^1.6.1",
     "clean-webpack-plugin": "^0.1.17",
     "css-loader": "^0.28.7",
+    "eslint": "^4.9.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-loader": "^1.9.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-node": "^5.2.1",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-standard": "^3.0.1",
     "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^1.1.5",
     "img-loader": "^2.0.0",
