@@ -34,9 +34,32 @@ let config = {
         filename: dev ? '[name].js' : '[name].[chunkhash:15].js',
         publicPath: '/dist/',
     },
+
+    resolve: {
+        alias: {
+            '@css': path.resolve('./assets/scss/'),
+            '@js': path.resolve('./assets/js/')
+        }
+    },
+
     devtool: dev ? "cheap-module-eval-source-map" : false,
+    devServer: {
+        port:3000,
+        historyApiFallback: {
+            index: 'index.php',
+        },
+        contentBase: path.resolve('../../../'),
+        hot:true,
+    },
+
     module: {
         rules: [
+            {
+                enforce: 'pre',
+                test: /\.js$/,
+                exclude: /(node_modules|bower_components)/,
+                use: ['eslint-loader'],
+            },
             {
                 test: /\.js$/,
                 exclude: /(node_modules|bower_components)/,
@@ -46,35 +69,57 @@ let config = {
                 test: /\.css$/,
                 use: ExtractTextPlugin.extract({
                     fallback: "style-loader",
-                    use : cssLoaders
+                    use: cssLoaders
                 }),
             },
             {
                 test: /\.scss$/,
                 use: ExtractTextPlugin.extract({
                     fallback: "style-loader",
-                    use : [...cssLoaders, 'sass-loader']
+                    use: [...cssLoaders, 'sass-loader']
                 }),
 
+            },
+            {
+                test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+                use: 'file-loader'
+            },
+            {
+                test: /\.(png|jpe?g|gif|svg)$/,
+                use: [
+                    {
+                        loader: 'url-loader',
+                        options: {
+                            limit: 8192,
+                            name: '[name].[hash:15].[ext]',
+                        }
+                    },
+                    {
+                        loader: 'img-loader',
+                        options: {
+                            enable: !dev
+                        }
+                    }
+                ]
             }
         ]
     },
 
     plugins: [
         new ExtractTextPlugin({
-            filename: dev ? '[name].css': '[name].[contenthash:15].css',
-            disable:dev
+            filename: dev ? '[name].css' : '[name].[contenthash:15].css',
+            disable: dev
         })
     ],
-}
+};
 
 if (!dev) {
     config.plugins.push(new UglifyJSPlugin());
     config.plugins.push(new ManifestPlugin());
     config.plugins.push(new CleanWebpackPlugin(['dist'], {
         root: path.resolve('./'),
-        verbose:true,
-        dry:true
+        verbose: true,
+        dry: true
     }))
 }
 
