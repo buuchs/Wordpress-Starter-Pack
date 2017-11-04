@@ -17,6 +17,6 @@
 
 get_header(); ?>
 
-<p>lol</p>
+<p>test</p>
 
 <?php get_footer();
