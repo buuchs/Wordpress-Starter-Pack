@@ -2,6 +2,7 @@ const path = require("path");
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
+const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const dev = process.env.NODE_ENV === "dev";
 
@@ -26,13 +27,13 @@ if (!dev) {
 let config = {
 
     entry: {
-        main: ['./assets/scss/app.scss', './assets/js/app.js']
+        app: ['./assets/scss/app.scss', './assets/js/app.js']
     },
     watch: dev,
     output: {
         path: path.resolve('./dist'),
         filename: dev ? '[name].js' : '[name].[chunkhash:15].js',
-        publicPath: '/dist/',
+        publicPath: './assets/',
     },
 
     resolve: {
@@ -45,10 +46,7 @@ let config = {
     devtool: dev ? "cheap-module-eval-source-map" : false,
     devServer: {
         port:3000,
-        historyApiFallback: {
-            index: 'index.php',
-        },
-        contentBase: path.resolve('../../../'),
+        contentBase: path.resolve('./'),
         hot:true,
     },
 
@@ -108,15 +106,24 @@ let config = {
     plugins: [
         new ExtractTextPlugin({
             filename: dev ? '[name].css' : '[name].[contenthash:15].css',
-            disable: dev
-        })
+        }),
+        new BrowserSyncPlugin (
+            {
+                host:'localhost',
+                port: 8080,
+                proxy : 'http://localhost:8888/Wordpress-starter-pack/'
+            },
+            {
+                reload : false
+            }
+        )
     ],
 };
 
 if (!dev) {
     config.plugins.push(new UglifyJSPlugin());
     config.plugins.push(new ManifestPlugin());
-    config.plugins.push(new CleanWebpackPlugin(['dist'], {
+    config.plugins.push(new CleanWebpackPlugin(['./dist'], {
         root: path.resolve('./'),
         verbose: true,
         dry: true
